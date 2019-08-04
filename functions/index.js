@@ -32,6 +32,19 @@ exports.sendSMS = functions.firestore
 				from: '+12523850440',
 				body: `Bienvenid@ a StronGo ${newValue.fullName}, el código para la activación de tu plan es ${newValue.earlyCode}. Espera pronto más información para disfrutar de nuestros servicios. No viajas solo, viajas con tu familia...`,
 			});
+
+			client.messages.create({
+				to: `+573505764881`,
+				from: '+12523850440',
+				body: `Felicitaciones, tienes un usuario nuevo, ${newValue.fullName} ha contratdo el plan premium driver. Que esperas? Llámalo ya al +57${newValue.phoneNumber.trim()}`,
+			});
+
+			// client.messages.create({
+			// 	to: `+573133046949`,
+			// 	from: '+12523850440',
+			// 	body: `Felicitaciones, tienes un usuario nuevo, ${newValue.fullName} ha contratdo el plan premium driver. Que esperas? Llámalo ya al +57${newValue.phoneNumber.trim()}`,
+			// });
+			console.log(newValue, 'Se envio el mensaje');
 		}
 
 		return { status: 'ok' };
