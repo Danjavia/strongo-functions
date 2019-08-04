@@ -26,11 +26,13 @@ exports.sendSMS = functions.firestore
 		const newValue = change.after.data();
 
 		// Send the text message.
-		client.messages.create({
-			to: `+57${newValue.phoneNumber.trim()}`,
-			from: '+12523850440',
-			body: `Bienvenid@ a StronGo ${newValue.fullName}, el código para la activación de tu plan es ${newValue.earlyCode}. Espera pronto más información para disfrutar de nuestros servicios. No viajas solo, viajas con tu familia...`,
-		});
+		if (newValue['x_code_response'] === 1) {
+			client.messages.create({
+				to: `+57${newValue.phoneNumber.trim()}`,
+				from: '+12523850440',
+				body: `Bienvenid@ a StronGo ${newValue.fullName}, el código para la activación de tu plan es ${newValue.earlyCode}. Espera pronto más información para disfrutar de nuestros servicios. No viajas solo, viajas con tu familia...`,
+			});
+		}
 
 		return { status: 'ok' };
 	});
