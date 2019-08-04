@@ -47,7 +47,7 @@ exports.sendSMS = functions.firestore
 			console.log(newValue, 'Se envio el mensaje');
 		}
 
-		return { status: 'ok' };
+		return { status: 'ok', message: 'Se enviaron los mensajes' };
 	});
 
 
