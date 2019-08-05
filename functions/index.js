@@ -21,33 +21,30 @@ const epayco = require('epayco-node')({
 
 exports.sendSMS = functions.firestore
 	.document('leads/{userId}')
-	.onUpdate((change, context) => {
+	.onCreate((snap, context) => {
 
-		const newValue = change.after.data();
+		const newValue = snap.data();
 
 		// Send the text message.
-		if (newValue['x_code_response'] === 1) {
-			client.messages.create({
-				to: `+57${newValue.phoneNumber.trim()}`,
-				from: '+12523850440',
-				body: `Bienvenid@ a StronGo ${newValue.fullName}, el código para la activación de tu plan es ${newValue.earlyCode}. Espera pronto más información para disfrutar de nuestros servicios. No viajas solo, viajas con tu familia...`,
-			});
+		client.messages.create({
+			to: `+57${newValue.phoneNumber.trim()}`,
+			from: '+12523850440',
+			body: `Bienvenid@ a StronGo ${newValue.fullName}, el código para la activación de tu plan es ${newValue.earlyCode}. Espera pronto más información para disfrutar de nuestros servicios. No viajas solo, viajas con tu familia...`,
+		});
 
-			client.messages.create({
-				to: `+573505764881`,
-				from: '+12523850440',
-				body: `Felicitaciones, tienes un usuario nuevo, ${newValue.fullName} ha contratdo el plan premium driver. Que esperas? Llámalo ya al +57${newValue.phoneNumber.trim()}`,
-			});
+		client.messages.create({
+			to: `+573505764881`,
+			from: '+12523850440',
+			body: `Felicitaciones, tienes un usuario nuevo. ${newValue.fullName} ha contratdo el plan premium driver. Que esperas? Llámalo ya al +57${newValue.phoneNumber.trim()}`,
+		});
 
-			// client.messages.create({
-			// 	to: `+573133046949`,
-			// 	from: '+12523850440',
-			// 	body: `Felicitaciones, tienes un usuario nuevo, ${newValue.fullName} ha contratdo el plan premium driver. Que esperas? Llámalo ya al +57${newValue.phoneNumber.trim()}`,
-			// });
-			console.log(newValue, 'Se envio el mensaje');
-		}
+		client.messages.create({
+			to: `+573133046949`,
+			from: '+12523850440',
+			body: `Hola Fea!, tienes un usuario nuevo. ${newValue.fullName} ha contratdo el plan premium driver. Que esperas? Llámalo ya al +57${newValue.phoneNumber.trim()}`,
+		});
 
-		return { status: 'ok', message: 'Se enviaron los mensajes' };
+		return { status: 'ok' };
 	});
 
 
